@@ -8,6 +8,14 @@ module.exports = {
 		port: '3306',
 		dialect: 'mysql',
 	},
+	fleet_distribution: {
+		username: 'intern',
+		password: 'intern',
+		database: 'fleet_distribution',
+		host: '192.168.9.47',
+		port: '3306',
+		dialect: 'mysql',
+	},
 	development: {
 		username: 'root',
 		password: null,
