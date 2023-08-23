@@ -56,9 +56,8 @@ exports.fleetdistribution_sukabumi = async (req, res) => {
 };
 exports.monthly_kjy = async (req, res) => {
   try {
-
     const response = await connectFleet.query(
-      " SELECT * FROM `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE id IN (SELECT MAX(id) FROM `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` GROUP BY MONTH(DATE))  ",
+      " SELECT * FROM `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE id IN (SELECT MAX(id) FROM `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` GROUP BY MONTH(DATE)) LIMIT 12 ",
       {
         type: QueryTypes.SELECT,
       }
@@ -71,9 +70,8 @@ exports.monthly_kjy = async (req, res) => {
 };
 exports.monthly_skb = async (req, res) => {
   try {
-
     const response = await connectFleet.query(
-      " SELECT * FROM `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE id IN (SELECT MAX(id) FROM `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` GROUP BY MONTH(DATE))  ",
+      " SELECT * FROM `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE id IN (SELECT MAX(id) FROM `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` GROUP BY MONTH(DATE)) LIMIT 12  ",
       {
         type: QueryTypes.SELECT,
       }
