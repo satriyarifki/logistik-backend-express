@@ -14,3 +14,16 @@ exports.warehouse_occu = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.warehouse_occu_all = async (req, res) => {
+  try {
+    const response = await connectFleet.query(
+      "SELECT * FROM `fleet_distribution`.`wh_occupancy`",
+      { type: QueryTypes.SELECT }
+    );
+    // const sqlQuery = ``
+
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
