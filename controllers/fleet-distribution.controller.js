@@ -1,6 +1,7 @@
 const { Sequelize, QueryTypes } = require("sequelize");
 const { connectScada, connectFleet } = require("../config/connection");
 
+// GET DATA ALL
 exports.fleet_kejayan_all = async (req, res) => {
   try {
     //
@@ -16,6 +17,24 @@ exports.fleet_kejayan_all = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.fleet_sukabumi_all = async (req, res) => {
+  try {
+    //
+
+    const response = await connectFleet.query(
+      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` ORDER BY id DESC",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//GET DATA BY ID
 exports.fleet_kejayan_byid = async (req, res) => {
   try {
     const { date } = req.params;
@@ -23,7 +42,7 @@ exports.fleet_kejayan_byid = async (req, res) => {
     const response = await connectFleet.query(
       "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE date =  $date ",
       {
-        bind: {date: date},
+        bind: { date: date },
         type: QueryTypes.SELECT,
       }
     );
@@ -33,6 +52,25 @@ exports.fleet_kejayan_byid = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.fleet_sukabumi_byid = async (req, res) => {
+  try {
+    //
+    const { date } = req.params;
+    const response = await connectFleet.query(
+      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE date =  $date",
+      {
+        bind: { date: date },
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response[0]);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//GET DATA LAST ONE
 exports.fleetdistribution_kejayan = async (req, res) => {
   try {
     // const trucking = await connectFleet.query('SELECT * FROM `fleet_distribution`.`trucking_from_kejayan` WHERE id IN (SELECT max(id) FROM `fleet_distribution`.`trucking_from_kejayan`) ', { type: QueryTypes.SELECT });
@@ -49,39 +87,6 @@ exports.fleetdistribution_kejayan = async (req, res) => {
     const response = await connectFleet.query(
       "SELECT *, `within_time_limit_<_=_11_pm` AS within_time, `out_of_the_limit_>_=_11_pm` AS out_limit FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE id IN (SELECT max(id) FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_kejayan`) ",
       {
-        type: QueryTypes.SELECT,
-      }
-    );
-    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
-    res.status(200).json(response[0]);
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
-exports.fleet_sukabumi_all = async (req, res) => {
-  try {
-    // 
-
-    const response = await connectFleet.query(
-      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` ORDER BY id DESC",
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
-    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
-    res.status(200).json(response);
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
-exports.fleet_sukabumi_byid = async (req, res) => {
-  try {
-    // 
-    const { date } = req.params;
-    const response = await connectFleet.query(
-      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE date =  $date",
-      {
-        bind: {date: date},
         type: QueryTypes.SELECT,
       }
     );
@@ -119,6 +124,8 @@ exports.fleetdistribution_sukabumi = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+//GET DATA MONTLY (LAST DATE)
 exports.monthly_kjy = async (req, res) => {
   try {
     const response = await connectFleet.query(
@@ -142,6 +149,30 @@ exports.monthly_skb = async (req, res) => {
       }
     );
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//EDIT DATA
+exports.edit_trucking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET container = $container,wing_box = $wing_box, tronton = $tronton, fuso = $fuso, cold_diesel = $colt WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          container: req.body.container,
+          wing_box: req.body.wing_box,
+          tronton: req.body.tronton,
+          fuso: req.body.fuso,
+          colt: req.body.cold_diesel,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
     res.status(200).json(response);
   } catch (e) {
     return res.status(500).json({ error: e.message });
