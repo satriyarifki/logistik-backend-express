@@ -156,7 +156,7 @@ exports.monthly_skb = async (req, res) => {
 };
 
 //EDIT DATA
-exports.edit_trucking = async (req, res) => {
+exports.edit_trucking_kjy = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await connectFleet.query(
@@ -169,6 +169,50 @@ exports.edit_trucking = async (req, res) => {
           tronton: req.body.tronton,
           fuso: req.body.fuso,
           colt: req.body.cold_diesel,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_trucking_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET container = $container,wing_box = $wing_box, tronton = $tronton, fuso = $fuso, cold_diesel = $colt WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          container: req.body.container,
+          wing_box: req.body.wing_box,
+          tronton: req.body.tronton,
+          fuso: req.body.fuso,
+          colt: req.body.cold_diesel,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_delivery_kjy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET ditributor = $distributor, odi = $odi, export = $export, intransitt_wh = $intransitt_wh, ldc = $ldc WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          distributor: req.body.distributor,
+          odi: req.body.odi,
+          export: req.body.export,
+          intransitt_wh: req.body.intransitt_wh,
+          ldc: req.body.ldc,
         },
         type: QueryTypes.UPDATE,
       }

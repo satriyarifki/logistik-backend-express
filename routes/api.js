@@ -17,7 +17,9 @@ router.get('/fleet-skb/:date', fleet.fleet_sukabumi_byid);
 router.get('/fleet-kjy-all', fleet.fleet_kejayan_all);
 router.get('/fleet-skb-all', fleet.fleet_sukabumi_all);
 //// POST
-router.post('/fleet-kjy/trucking/:id', fleet.edit_trucking);
+router.post('/fleet-kjy/trucking/:id', fleet.edit_trucking_kjy);
+router.post('/fleet-skb/trucking/:id', fleet.edit_trucking_kjy);
+router.post('/fleet-kjy/delivery/:id', fleet.edit_delivery_kjy);
 
 
 
