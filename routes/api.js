@@ -20,6 +20,15 @@ router.get('/fleet-skb-all', fleet.fleet_sukabumi_all);
 router.post('/fleet-kjy/trucking/:id', fleet.edit_trucking_kjy);
 router.post('/fleet-skb/trucking/:id', fleet.edit_trucking_kjy);
 router.post('/fleet-kjy/delivery/:id', fleet.edit_delivery_kjy);
+router.post('/fleet-skb/delivery/:id', fleet.edit_delivery_skb);
+router.post('/fleet-kjy/ontime/:id', fleet.edit_ontime_kjy);
+router.post('/fleet-skb/ontime/:id', fleet.edit_ontime_skb);
+router.post('/fleet-kjy/damage/:id', fleet.edit_damage_kjy);
+router.post('/fleet-skb/damage/:id', fleet.edit_damage_skb);
+router.post('/fleet-kjy/perfect/:id', fleet.edit_perfect_kjy);
+router.post('/fleet-skb/perfect/:id', fleet.edit_perfect_skb);
+router.post('/fleet-kjy/handling/:id', fleet.edit_handling_kjy);
+router.post('/fleet-skb/handling/:id', fleet.edit_handling_skb);
 
 
 

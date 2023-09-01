@@ -222,3 +222,182 @@ exports.edit_delivery_kjy = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.edit_delivery_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET ditributor = $distributor, odi = $odi, export = $export, intransitt_wh = $intransitt_wh, ldc = $ldc WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          distributor: req.body.distributor,
+          odi: req.body.odi,
+          export: req.body.export,
+          intransitt_wh: req.body.intransitt_wh,
+          ldc: req.body.ldc,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_ontime_kjy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET `within_time_limit_<_=_11_pm` = $within, `out_of_the_limit_>_=_11_pm` = $out_limit WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          within: req.body.within,
+          out_limit: req.body.outLimit,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_ontime_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET `within_time_limit_<_=_11_pm` = $within, `out_of_the_limit_>_=_11_pm` = $out_limit WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          within: req.body.within,
+          out_limit: req.body.outLimit,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_damage_kjy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET `qty_damage_product` = $qty WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_damage_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET `qty_damage_product` = $qty WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_perfect_kjy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET `qty_shipment` = $qty, `percentage` = $percentage WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          percentage: req.body.percentage,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_perfect_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET `qty_shipment` = $qty, `percentage` = $percentage WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          percentage: req.body.percentage,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+exports.edit_handling_kjy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_kejayan` SET `qty_handling_load` = $qty WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.edit_handling_skb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "UPDATE `trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` SET `qty_handling_load` = $qty WHERE id = $id",
+      {
+        bind: {
+          id: id,
+          qty: req.body.qty,
+          
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
