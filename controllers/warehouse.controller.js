@@ -17,7 +17,7 @@ exports.warehouse_occu = async (req, res) => {
 exports.warehouse_occu_all = async (req, res) => {
   try {
     const response = await connectFleet.query(
-      "SELECT * FROM `fleet_distribution`.`wh_occupancy`",
+      "SELECT * FROM `fleet_distribution`.`wh_occupancy` ORDER BY id DESC ",
       { type: QueryTypes.SELECT }
     );
     // const sqlQuery = ``

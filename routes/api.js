@@ -36,7 +36,7 @@ router.get('/month-kjy', fleet.monthly_kjy);
 router.get('/month-skb', fleet.monthly_skb);
 
 router.get('/warehouse-occu', whs.warehouse_occu);
-router.get('/warehouse-occu-all', whs.warehouse_occu);
+router.get('/warehouse-occu-all', whs.warehouse_occu_all);
 
 
 module.exports = router;
