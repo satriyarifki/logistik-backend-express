@@ -18,7 +18,7 @@ router.get('/fleet-kjy-all', fleet.fleet_kejayan_all);
 router.get('/fleet-skb-all', fleet.fleet_sukabumi_all);
 //// POST
 router.post('/fleet-kjy/trucking/:id', fleet.edit_trucking_kjy);
-router.post('/fleet-skb/trucking/:id', fleet.edit_trucking_kjy);
+router.post('/fleet-skb/trucking/:id', fleet.edit_trucking_skb);
 router.post('/fleet-kjy/delivery/:id', fleet.edit_delivery_kjy);
 router.post('/fleet-skb/delivery/:id', fleet.edit_delivery_skb);
 router.post('/fleet-kjy/ontime/:id', fleet.edit_ontime_kjy);
@@ -36,7 +36,9 @@ router.get('/month-kjy', fleet.monthly_kjy);
 router.get('/month-skb', fleet.monthly_skb);
 
 router.get('/warehouse-occu', whs.warehouse_occu);
+router.get('/warehouse-occu/:date', whs.warehouse_occu_bydate);
 router.get('/warehouse-occu-all', whs.warehouse_occu_all);
+router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
 
 
 module.exports = router;
