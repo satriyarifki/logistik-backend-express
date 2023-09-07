@@ -37,12 +37,12 @@ exports.fleet_sukabumi_all = async (req, res) => {
 //GET DATA BY ID
 exports.fleet_kejayan_byid = async (req, res) => {
   try {
-    const { date } = req.params;
+    const { id } = req.params;
     //
     const response = await connectFleet.query(
-      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE date =  $date ",
+      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_kejayan` WHERE id =  $id ",
       {
-        bind: { date: date },
+        bind: { id: id },
         type: QueryTypes.SELECT,
       }
     );
@@ -55,11 +55,11 @@ exports.fleet_kejayan_byid = async (req, res) => {
 exports.fleet_sukabumi_byid = async (req, res) => {
   try {
     //
-    const { date } = req.params;
+    const { id } = req.params;
     const response = await connectFleet.query(
-      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE date =  $date",
+      "SELECT * FROM `fleet_distribution`.`trucking_delivery_fleet_arrival_order_handling_damage_sukabumi` WHERE id =  $id",
       {
-        bind: { date: date },
+        bind: { id: id },
         type: QueryTypes.SELECT,
       }
     );

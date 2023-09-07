@@ -12,8 +12,8 @@ router.get('/temp-soyjoy', temp.tempsoyjoy);
 //// GET
 router.get('/fleet-kjy', fleet.fleetdistribution_kejayan);
 router.get('/fleet-skb', fleet.fleetdistribution_sukabumi);
-router.get('/fleet-kjy/:date', fleet.fleet_kejayan_byid);
-router.get('/fleet-skb/:date', fleet.fleet_sukabumi_byid);
+router.get('/fleet-kjy/:id', fleet.fleet_kejayan_byid);
+router.get('/fleet-skb/:id', fleet.fleet_sukabumi_byid);
 router.get('/fleet-kjy-all', fleet.fleet_kejayan_all);
 router.get('/fleet-skb-all', fleet.fleet_sukabumi_all);
 //// POST
@@ -36,7 +36,8 @@ router.get('/month-kjy', fleet.monthly_kjy);
 router.get('/month-skb', fleet.monthly_skb);
 
 router.get('/warehouse-occu', whs.warehouse_occu);
-router.get('/warehouse-occu/:date', whs.warehouse_occu_bydate);
+router.get('/warehouse-occu-date/:date', whs.warehouse_occu_bydate);
+router.get('/warehouse-occu/:id', whs.warehouse_occu_byid);
 router.get('/warehouse-occu-all', whs.warehouse_occu_all);
 router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
 

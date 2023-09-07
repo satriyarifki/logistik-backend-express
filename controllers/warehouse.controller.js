@@ -41,6 +41,20 @@ exports.warehouse_occu_bydate = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.warehouse_occu_byid = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await connectFleet.query(
+      "SELECT * FROM `fleet_distribution`.`wh_occupancy` WHERE id = $id LIMIT 1",
+      { bind: { id: id }, type: QueryTypes.SELECT }
+    );
+    // const sqlQuery = ``
+
+    res.status(200).json(response[0]);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.edit_occupancy = async (req, res) => {
   try {
     const { id } = req.params;
