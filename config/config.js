@@ -23,6 +23,14 @@ module.exports = {
     host: "127.0.0.1",
     dialect: "mysql",
   },
+  checkln: {
+    username: "iot_prod",
+    password: "123456",
+    database: "pengecekan_ln2",
+    host: "192.168.9.47",
+    port: "3306",
+    dialect: "mysql",
+  },
   test: {
     username: "root",
     password: null,
