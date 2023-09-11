@@ -3,6 +3,7 @@ var router = express.Router();
 var temp = require('../controllers/temperature.controller');
 var fleet = require('../controllers/fleet-distribution.controller');
 var whs = require('../controllers/warehouse.controller');
+var ln2 = require('../controllers/check-ln2.controller');
 
 //TEMPERATURE
 router.get('/temp-pocari', temp.temppocari);
@@ -40,6 +41,10 @@ router.get('/warehouse-occu-date/:date', whs.warehouse_occu_bydate);
 router.get('/warehouse-occu/:id', whs.warehouse_occu_byid);
 router.get('/warehouse-occu-all', whs.warehouse_occu_all);
 router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
+
+router.get('/check-ln2', ln2.arrival_ln2_all)
+router.get('/arrival-ln2', ln2.arrival_all)
+router.get('/report-ln2', ln2.view_report_ln2)
 
 
 module.exports = router;
