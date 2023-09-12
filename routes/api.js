@@ -45,6 +45,9 @@ router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
 router.get('/check-ln2', ln2.arrival_ln2_all)
 router.get('/arrival-ln2', ln2.arrival_all)
 router.get('/report-ln2', ln2.view_report_ln2)
+router.get('/ln2-karyawan', ln2.karyawan)
+router.get('/ln2-supplier', ln2.supplier)
+router.get('/ln2-tanki', ln2.tanki)
 
 
 module.exports = router;

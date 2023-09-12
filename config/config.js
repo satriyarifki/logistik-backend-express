@@ -4,7 +4,7 @@ module.exports = {
     username: "intern",
     password: "intern",
     database: "scada_db1",
-    host: "192.168.9.49",
+    host: "192.168.9.47",
     port: "6446",
     dialect: "mysql",
   },

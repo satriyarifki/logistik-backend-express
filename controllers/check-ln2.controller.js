@@ -47,6 +47,51 @@ exports.view_report_ln2 = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.karyawan = async (req, res) => {
+  try {
+    //
+    const response = await connectLn.query(
+      "SELECT * FROM `pengecekan_ln2`.`tb_karyawan` ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.supplier = async (req, res) => {
+  try {
+    //
+    const response = await connectLn.query(
+      "SELECT * FROM `pengecekan_ln2`.`tb_supplier` ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.tanki = async (req, res) => {
+  try {
+    //
+    const response = await connectLn.query(
+      "SELECT * FROM `pengecekan_ln2`.`tb_tanki` ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.air_product_all = async (req, res) => {
   try {
     //
