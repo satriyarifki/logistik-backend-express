@@ -48,6 +48,8 @@ router.get('/report-ln2', ln2.view_report_ln2)
 router.get('/ln2-karyawan', ln2.karyawan)
 router.get('/ln2-supplier', ln2.supplier)
 router.get('/ln2-tanki', ln2.tanki)
+router.post('/arrival-create',ln2.arrival_create)
+router.post('/arrival-create/air',ln2.arrival_air_create)
 
 
 module.exports = router;
