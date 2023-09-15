@@ -42,14 +42,17 @@ router.get('/warehouse-occu/:id', whs.warehouse_occu_byid);
 router.get('/warehouse-occu-all', whs.warehouse_occu_all);
 router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
 
-router.get('/check-ln2', ln2.arrival_ln2_all)
+router.get('/arrival-ln2/:id', ln2.arrival_byId)
 router.get('/arrival-ln2', ln2.arrival_all)
+router.get('/pengisian-ln2/:id', ln2.pengisian_byArrivalId)
 router.get('/report-ln2', ln2.view_report_ln2)
 router.get('/ln2-karyawan', ln2.karyawan)
 router.get('/ln2-supplier', ln2.supplier)
 router.get('/ln2-tanki', ln2.tanki)
 router.post('/arrival-create',ln2.arrival_create)
+router.post('/arrival-edit/:id',ln2.arrival_update)
 router.post('/arrival-create/air',ln2.arrival_air_create)
+router.post('/fill-ln2/edit/:id',ln2.arrival_air_update)
 
 
 module.exports = router;
