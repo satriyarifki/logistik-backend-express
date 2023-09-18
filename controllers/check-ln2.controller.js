@@ -187,6 +187,31 @@ exports.view_report_ln2 = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.check_level_create = async (req, res) => {
+  try {
+    //
+    console.log(req.body);
+    const response = await connectLn.query(
+      "INSERT INTO `pengecekan_ln2`.`check_level_ln2` (`date`, `jam`, `supplierId` , `checkerId`, `tankiId`  ,`level`  ,`pressure` ) VALUES (date = $date, jam = $jam, supplierId = $supplierId, checkerId = $checkerId, tankiId = $tankiId,level = $level,pressure = $press) ",
+      {
+        bind: {
+          date: req.body.date,
+          jam: req.body.jam,
+          supplierId: req.body.supplierId,
+          tankiId: req.body.tankiId,
+          checkerId: req.body.checkerId,
+          level: req.body.level,
+          press: req.body.press,
+        },
+        type: QueryTypes.INSERT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.karyawan = async (req, res) => {
   try {
     //
