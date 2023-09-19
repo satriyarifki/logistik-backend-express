@@ -5,26 +5,28 @@ const {
   connectLn,
 } = require("../config/connection");
 
-const test = "SELECT * FROM `pengecekan_ln2`.`arrival_view` WHERE id = $id "
+const test = "SELECT * FROM `pengecekan_ln2`.`arrival_view` WHERE id = $id ";
 
 // GET DATA ALL
 exports.arrival_byId = async (req, res) => {
   try {
     //
     const id = req.params.id;
-    const response = await connectLn
-      .query("SELECT a.id, a.date, s.nama_supplier AS supplier, a.no_mobil, a.checkerId, c.no_surat_jalan, c.no_po, c.qty, a.jenis_mobil FROM arrival_ln2 AS a INNER JOIN catatan_pengisian AS c ON a.id = c.arrivalId INNER JOIN tb_supplier AS s ON a.supplierId = s.id WHERE a.id = $id ", {
+    const response = await connectLn.query(
+      "SELECT a.id, a.date, s.nama_supplier AS supplier, a.no_mobil, a.checkerId, c.no_surat_jalan, c.no_po, c.qty, a.jenis_mobil FROM arrival_ln2 AS a INNER JOIN catatan_pengisian AS c ON a.id = c.arrivalId INNER JOIN tb_supplier AS s ON a.supplierId = s.id WHERE a.id = $id ",
+      {
         bind: { id: id },
         type: QueryTypes.SELECT,
-      })
-      // .then((result) => {
-      //   result;
-      //   console.log(result);
-      // })
-      // .catch((err) => {
-      //   err;
-      //   console.log(err);
-      // });
+      }
+    );
+    // .then((result) => {
+    //   result;
+    //   console.log(result);
+    // })
+    // .catch((err) => {
+    //   err;
+    //   console.log(err);
+    // });
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
     res.status(200).json(response[0]);
   } catch (e) {
@@ -94,7 +96,7 @@ exports.arrival_update = async (req, res) => {
       "UPDATE `pengecekan_ln2`.`arrival_ln2` SET `date` = $date ,`checkerId` = $checkerId ,`supplierId` = $supplierId ,`no_mobil` = $no_mobil,`jenis_mobil` = $jenis_mobil WHERE id = $id",
       {
         bind: {
-          id : id,
+          id: id,
           date: req.body.date,
           checkerId: req.body.checkerId,
           supplierId: req.body.supplierId,
@@ -149,7 +151,7 @@ exports.arrival_air_update = async (req, res) => {
       "UPDATE `pengecekan_ln2`.`catatan_pengisian` SET  `level_sebelum` = $level_sebelum ,`press_sebelum` = $press_sebelum ,`jam_sebelum` = $jam_sebelum  ,`level_sesudah` = $level_sesudah  ,`press_sesudah` = $press_sesudah ,`jam_sesudah` = $jam_sesudah  ,`no_surat_jalan` = $no_surat_jalan,`no_po` = $no_po,`qty` = $qty ,`satuan` = $satuan WHERE id = $id ",
       {
         bind: {
-          id : id,
+          id: id,
           arrivalId: req.body.arrivalId,
           tankiId: req.body.tankiId,
           level_sebelum: req.body.level_sebelum,
@@ -175,9 +177,11 @@ exports.arrival_air_update = async (req, res) => {
 exports.view_report_ln2 = async (req, res) => {
   try {
     //
+    const { date } = req.params;
     const response = await connectLn.query(
-      "SELECT * FROM `pengecekan_ln2`.`report_update_kondisi_ln2` ORDER BY id DESC  ",
+      "SELECT * FROM `pengecekan_ln2`.`check_level_ln2_view` WHERE date = ?  ",
       {
+        replacements: [date],
         type: QueryTypes.SELECT,
       }
     );
@@ -192,7 +196,7 @@ exports.check_level_create = async (req, res) => {
     //
     console.log(req.body);
     const response = await connectLn.query(
-      "INSERT INTO `pengecekan_ln2`.`check_level_ln2` (`date`, `jam`, `supplierId` , `checkerId`, `tankiId`  ,`level`  ,`pressure` ) VALUES (date = $date, jam = $jam, supplierId = $supplierId, checkerId = $checkerId, tankiId = $tankiId,level = $level,pressure = $press) ",
+      "INSERT INTO `pengecekan_ln2`.`check_level_ln2` (`date`, `jam`, `supplierId` , `checkerId`, `tankiId`  ,`level`  ,`pressure` ) VALUES ($date, $jam, $supplierId, $checkerId, $tankiId, $level, $press) ",
       {
         bind: {
           date: req.body.date,
