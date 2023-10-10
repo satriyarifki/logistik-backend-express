@@ -8,6 +8,7 @@ const upload = multer();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
+var authRouter = require('./routes/auth');
 
 var app = express();
 app.use((req, res, next) => {
@@ -28,5 +29,6 @@ app.use(upload.none())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 
 module.exports = app;
