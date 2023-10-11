@@ -54,6 +54,7 @@ router.post('/arrival-edit/:id',ln2.arrival_update)
 router.post('/arrival-create/air',ln2.arrival_air_create)
 router.post('/fill-ln2/edit/:id',ln2.arrival_air_update)
 router.post('/level-ln2',ln2.check_level_create)
+router.delete('/del/arrival/:id',ln2.arrival_air_delete)
 
 
 module.exports = router;

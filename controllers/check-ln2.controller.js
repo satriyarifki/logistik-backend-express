@@ -321,3 +321,33 @@ exports.samator_tb2_all = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+exports.arrival_air_delete = async (req, res) => {
+  try {
+    //
+    const { id } = req.params;
+    const response = await connectLn.query(
+      // "DELETE a,c FROM catatan_pengisian as c, arrival_ln2 as a WHERE a.id = $id AND c.arrivalId = a.id",
+      "DELETE FROM catatan_pengisian WHERE arrivalId = $id",
+      {
+        bind: {
+          id: id,
+        },
+        type: QueryTypes.DELETE,
+      }
+    );
+    const responseArrival = await connectLn.query(
+      "DELETE FROM arrival_ln2 WHERE id = $id",
+      {
+        bind: {
+          id: id,
+        },
+        type: QueryTypes.DELETE,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(responseArrival);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
