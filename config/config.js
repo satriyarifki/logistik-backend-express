@@ -31,6 +31,14 @@ module.exports = {
     port: "3306",
     dialect: "mysql",
   },
+  rmpm_occupancy: {
+    username: "iot_prod",
+    password: "123456",
+    database: "occupancy_rmpm",
+    host: "192.168.9.47",
+    port: "3306",
+    dialect: "mysql",
+  },
   test: {
     username: "root",
     password: null,

@@ -4,6 +4,7 @@ var temp = require('../controllers/temperature.controller');
 var fleet = require('../controllers/fleet-distribution.controller');
 var whs = require('../controllers/warehouse.controller');
 var ln2 = require('../controllers/check-ln2.controller');
+var rmpm = require('../controllers/rmpm.controller');
 
 //TEMPERATURE
 router.get('/temp-pocari', temp.temppocari);
@@ -44,6 +45,7 @@ router.post('/warehouse-occu-update/:id', whs.edit_occupancy);
 
 router.get('/arrival-ln2/:id', ln2.arrival_byId)
 router.get('/arrival-ln2', ln2.arrival_all)
+router.get('/check-level/newest', ln2.newest_check_level)
 router.get('/pengisian-ln2/:id', ln2.pengisian_byArrivalId)
 router.get('/report-ln2/:date', ln2.view_report_ln2)
 router.get('/ln2-karyawan', ln2.karyawan)
@@ -55,6 +57,10 @@ router.post('/arrival-create/air',ln2.arrival_air_create)
 router.post('/fill-ln2/edit/:id',ln2.arrival_air_update)
 router.post('/level-ln2',ln2.check_level_create)
 router.delete('/del/arrival/:id',ln2.arrival_air_delete)
+
+//RMPM Occupancy
+router.get('/rmpm-view', rmpm.index_view)
+router.get('/rmpm/storage', rmpm.storage)
 
 
 module.exports = router;
