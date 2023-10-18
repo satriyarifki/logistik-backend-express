@@ -174,6 +174,23 @@ exports.view_report_ln2 = async (req, res) => {
     //
     const { date } = req.params;
     const response = await connectLn.query(
+      "SELECT * FROM `check_level_ln2` WHERE date = ?  ",
+      {
+        replacements: [date],
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.view_report_ln2 = async (req, res) => {
+  try {
+    //
+    const { date } = req.params;
+    const response = await connectLn.query(
       "SELECT * FROM `pengecekan_ln2`.`check_level_ln2_view` WHERE date = ?  ",
       {
         replacements: [date],
