@@ -1,7 +1,6 @@
 const { Sequelize, QueryTypes } = require("sequelize");
 const { connectRmpm } = require("../config/connection");
 const fs = require("fs");
-const jsdom = require("jsdom");
 
 exports.index = async (req, res) => {
   try {
@@ -54,6 +53,22 @@ exports.index_view_group = async (req, res) => {
     //
     const response = await connectRmpm.query(
       "SELECT *, COUNT(*) as count FROM view_occupancy_storage GROUP BY date,time  ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.index_last = async (req, res) => {
+  try {
+    //
+    const { date } = req.params;
+    const response = await connectRmpm.query(
+      "SELECT * FROM view_last_occupancy",
       {
         type: QueryTypes.SELECT,
       }

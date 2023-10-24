@@ -60,11 +60,11 @@ router.delete("/del/arrival/:id", ln2.arrival_air_delete);
 router.get("/rmpm", rmpm.index_view);
 router.get("/rmpm/:date/:time", rmpm.index_by_datetime);
 router.get("/rmpm-view", rmpm.index_view);
+router.get("/rmpm-view/last", rmpm.index_last);
 router.get("/rmpm-view/group", rmpm.index_view_group);
 router.get("/rmpm/storage", rmpm.storage);
 router.post("/rmpm-create", rmpm.store);
 router.post("/rmpm-update", rmpm.update);
 router.delete("/rmpm-del/:date/:time", rmpm.delete);
-router.get("/rmpm/test", rmpm.test);
 
 module.exports = router;
