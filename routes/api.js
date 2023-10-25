@@ -54,6 +54,8 @@ router.post("/arrival-edit/:id", ln2.arrival_update);
 router.post("/arrival-create/air", ln2.arrival_air_create);
 router.post("/fill-ln2/edit/:id", ln2.arrival_air_update);
 router.post("/level-ln2", ln2.check_level_create);
+router.post("/level-ln2/update", ln2.check_level_update);
+router.delete("/del/check-ln2/:date/:jam", ln2.check_level_delete);
 router.delete("/del/arrival/:id", ln2.arrival_air_delete);
 
 //RMPM Occupancy
@@ -65,6 +67,7 @@ router.get("/rmpm-view/group", rmpm.index_view_group);
 router.get("/rmpm/storage", rmpm.storage);
 router.post("/rmpm-create", rmpm.store);
 router.post("/rmpm-update", rmpm.update);
+router.post("/rmpm-update/storage", rmpm.update_storage);
 router.delete("/rmpm-del/:date/:time", rmpm.delete);
 
 module.exports = router;

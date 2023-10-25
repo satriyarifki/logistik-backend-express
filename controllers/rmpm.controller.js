@@ -144,6 +144,31 @@ exports.update = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.update_storage = async (req, res) => {
+  try {
+    //
+    console.log(req.body);
+    
+    const response = connectRmpm.query(
+      "UPDATE storage SET  name = $name,min_temp = $min_temp,max_temp = $max_temp,capacity = $capacity WHERE id = $id  ",
+      {
+        bind: {
+          id: req.body.id,
+          min_temp: req.body.min_temp,
+          max_temp: req.body.max_temp,
+          capacity: req.body.capacity,
+          name: req.body.name,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.delete = async (req, res) => {
   try {
     //

@@ -7,7 +7,7 @@ const {
 
 const test = "SELECT * FROM `pengecekan_ln2`.`arrival_view` WHERE id = $id ";
 
-// GET DATA 
+// GET DATA
 exports.arrival_byId = async (req, res) => {
   try {
     //
@@ -169,23 +169,23 @@ exports.samator_tb2_all = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
-exports.view_report_ln2 = async (req, res) => {
-  try {
-    //
-    const { date } = req.params;
-    const response = await connectLn.query(
-      "SELECT * FROM `check_level_ln2` WHERE date = ?  ",
-      {
-        replacements: [date],
-        type: QueryTypes.SELECT,
-      }
-    );
-    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
-    res.status(200).json(response);
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
+// exports.view_report_ln2 = async (req, res) => {
+//   try {
+//     //
+//     const { date } = req.params;
+//     const response = await connectLn.query(
+//       "SELECT * FROM `check_level_ln2` WHERE date = ?  ",
+//       {
+//         replacements: [date],
+//         type: QueryTypes.SELECT,
+//       }
+//     );
+//     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+//     res.status(200).json(response);
+//   } catch (e) {
+//     return res.status(500).json({ error: e.message });
+//   }
+// };
 exports.view_report_ln2 = async (req, res) => {
   try {
     //
@@ -358,6 +358,38 @@ exports.arrival_air_update = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.check_level_update = async (req, res) => {
+  try {
+    //
+    console.log(req.body);
+    let response = [];
+    await req.body.items.forEach(async (element) => {
+      response.push(
+        await connectLn.query(
+          "UPDATE `pengecekan_ln2`.`check_level_ln2` SET `date` = $date, `jam` = $jam, `supplierId`= $supplierId , `checkerId` = $checkerId, `tankiId` = $tankiId ,`level` = $level  ,`pressure` = $press WHERE id = $id ",
+          {
+            bind: {
+              date: req.body.date,
+              jam: req.body.jam,
+              id: element.id,
+              supplierId: element.supplierId,
+              tankiId: element.tankiId,
+              checkerId: req.body.checkerId,
+              level: element.level,
+              press: element.press,
+            },
+            type: QueryTypes.INSERT,
+          }
+        )
+      );
+    });
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json({ message: "Submit Success", res: response });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 
 //DELETE
 exports.arrival_air_delete = async (req, res) => {
@@ -385,6 +417,27 @@ exports.arrival_air_delete = async (req, res) => {
     );
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
     res.status(200).json(responseArrival);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.check_level_delete = async (req, res) => {
+  try {
+    //
+    const { date,jam } = req.params;
+    const response = await connectLn.query(
+      // "DELETE a,c FROM catatan_pengisian as c, arrival_ln2 as a WHERE a.id = $id AND c.arrivalId = a.id",
+      "DELETE FROM check_level_ln2 WHERE date = $date AND jam = $jam",
+      {
+        bind: {
+          date: date,
+          jam: jam,
+        },
+        type: QueryTypes.DELETE,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
