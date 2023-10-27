@@ -51,6 +51,7 @@ router.get("/ln2-supplier", ln2.supplier);
 router.get("/ln2-tanki", ln2.tanki);
 router.post("/arrival-create", ln2.arrival_create);
 router.post("/ln2-karyawan/create", ln2.karyawan_create);
+router.post("/ln2-karyawan/update", ln2.karyawan_update);
 router.post("/arrival-edit/:id", ln2.arrival_update);
 router.post("/arrival-create/air", ln2.arrival_air_create);
 router.post("/fill-ln2/edit/:id", ln2.arrival_air_update);

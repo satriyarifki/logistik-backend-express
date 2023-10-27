@@ -411,6 +411,28 @@ exports.check_level_update = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.karyawan_update = async (req, res) => {
+  try {
+    console.log(req.body);
+    const response = await connectLn.query(
+      "UPDATE `tb_karyawan` SET `nama` = $nama, `bagian`  = $bagian, `company` = $company, `status`=$status WHERE nik = $nik ",
+      {
+        bind: {
+          nik: req.body.nik,
+          nama: req.body.nama,
+          bagian: req.body.bagian,
+          status: req.body.status,
+          company: req.body.company,
+        },
+        type: QueryTypes.UPDATE,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 
 //DELETE
 exports.arrival_air_delete = async (req, res) => {
