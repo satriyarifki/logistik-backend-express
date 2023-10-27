@@ -117,6 +117,28 @@ exports.store = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.store_storage = async (req, res) => {
+  try {
+    //
+    const response = await  connectRmpm.query(
+      "INSERT INTO storage (`name` ,`min_temp` ,`max_temp` ,`capacity`) VALUES ($name ,$min_temp ,$max_temp ,$capacity) ",
+      {
+        bind: {
+          min_temp: req.body.min_temp,
+          max_temp: req.body.max_temp,
+          capacity: req.body.capacity,
+          name: req.body.name,
+        },
+        type: QueryTypes.INSERT,
+      }
+    );
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.update = async (req, res) => {
   try {
     //

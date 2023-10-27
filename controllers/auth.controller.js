@@ -2,14 +2,14 @@
 var crypto = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const { Sequelize, QueryTypes } = require("sequelize");
-const { connectFleet } = require("../config/connection");
+const { connectLn } = require("../config/connection");
 
 exports.login = async (req, res) => {
   try {
     const { nik, password } = req.body;
 
     //find a user by their email
-    const user = await connectFleet.query(
+    const user = await connectLn.query(
       "SELECT * FROM `v_login_user` WHERE `lg_nik` = ? LIMIT 1",
       { replacements: [nik], type: QueryTypes.SELECT }
     );

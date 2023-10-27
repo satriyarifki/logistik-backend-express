@@ -298,6 +298,27 @@ exports.check_level_create = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.karyawan_create = async (req, res) => {
+  try {
+    const response = await connectLn.query(
+      "INSERT INTO `tb_karyawan` (`nik`, `nama`, `bagian` , `company`, `status`  ) VALUES ($nik, $nama, $bagian, $company, $status) ",
+      {
+        bind: {
+          nik: req.body.nik,
+          nama: req.body.nama,
+          bagian: req.body.bagian,
+          status: req.body.status,
+          company: req.body.company,
+        },
+        type: QueryTypes.INSERT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 
 //UPDATE
 exports.arrival_update = async (req, res) => {
@@ -417,6 +438,26 @@ exports.arrival_air_delete = async (req, res) => {
     );
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
     res.status(200).json(responseArrival);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.karyawan_delete = async (req, res) => {
+  try {
+    //
+    const { nik } = req.params;
+    const response = await connectLn.query(
+      // "DELETE a,c FROM catatan_pengisian as c, arrival_ln2 as a WHERE a.id = $id AND c.arrivalId = a.id",
+      "DELETE FROM tb_karyawan WHERE nik = $nik",
+      {
+        bind: {
+          nik: nik,
+        },
+        type: QueryTypes.DELETE,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
