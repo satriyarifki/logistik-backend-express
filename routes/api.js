@@ -43,6 +43,7 @@ router.post("/warehouse-occu-update/:id", whs.edit_occupancy);
 
 router.get("/arrival-ln2/:id", ln2.arrival_byId);
 router.get("/arrival-ln2", ln2.arrival_all);
+router.get("/arrival-ln2-group", ln2.arrival_grouped);
 router.get("/check-level/newest", ln2.newest_check_level);
 router.get("/pengisian-ln2/:id", ln2.pengisian_byArrivalId);
 router.get("/report-ln2/:date", ln2.view_report_ln2);
@@ -73,5 +74,6 @@ router.post("/rmpm-create/storage", rmpm.store_storage);
 router.post("/rmpm-update", rmpm.update);
 router.post("/rmpm-update/storage", rmpm.update_storage);
 router.delete("/rmpm-del/:date/:time", rmpm.delete);
+router.delete("/rmpm-del-storage/:id", rmpm.delete_storage);
 
 module.exports = router;

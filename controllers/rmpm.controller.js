@@ -120,14 +120,15 @@ exports.store = async (req, res) => {
 exports.store_storage = async (req, res) => {
   try {
     //
-    const response = await  connectRmpm.query(
-      "INSERT INTO storage (`name` ,`min_temp` ,`max_temp` ,`capacity`) VALUES ($name ,$min_temp ,$max_temp ,$capacity) ",
+    const response = await connectRmpm.query(
+      "INSERT INTO storage (`name` ,`min_temp` ,`max_temp` ,`capacity`, type) VALUES ($name ,$min_temp ,$max_temp ,$capacity, $type) ",
       {
         bind: {
           min_temp: req.body.min_temp,
           max_temp: req.body.max_temp,
           capacity: req.body.capacity,
           name: req.body.name,
+          type: req.body.type,
         },
         type: QueryTypes.INSERT,
       }
@@ -147,7 +148,7 @@ exports.update = async (req, res) => {
     await req.body.items.forEach((element) => {
       console.log(element);
       response = connectRmpm.query(
-        "UPDATE occupancy SET  used = $used WHERE date = $date AND time = $time AND storageId = $storageId ",
+        "UPDATE occupancy SET used = $used WHERE date = $date AND time = $time AND storageId = $storageId ",
         {
           bind: {
             date: req.body.date,
@@ -170,9 +171,9 @@ exports.update_storage = async (req, res) => {
   try {
     //
     console.log(req.body);
-    
+
     const response = connectRmpm.query(
-      "UPDATE storage SET  name = $name,min_temp = $min_temp,max_temp = $max_temp,capacity = $capacity WHERE id = $id  ",
+      "UPDATE storage SET  name = $name,min_temp = $min_temp,max_temp = $max_temp,capacity = $capacity,type = $type WHERE id = $id  ",
       {
         bind: {
           id: req.body.id,
@@ -180,6 +181,7 @@ exports.update_storage = async (req, res) => {
           max_temp: req.body.max_temp,
           capacity: req.body.capacity,
           name: req.body.name,
+          type: req.body.type,
         },
         type: QueryTypes.UPDATE,
       }
@@ -202,6 +204,26 @@ exports.delete = async (req, res) => {
         bind: {
           date: date,
           time: time,
+        },
+        type: QueryTypes.DELETE,
+      }
+    );
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.delete_storage = async (req, res) => {
+  try {
+    //
+    const { id } = req.params;
+    const response = await connectRmpm.query(
+      "DELETE FROM storage WHERE id = $id",
+      {
+        bind: {
+          id: id,
         },
         type: QueryTypes.DELETE,
       }

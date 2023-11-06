@@ -48,6 +48,21 @@ exports.arrival_all = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.arrival_grouped = async (req, res) => {
+  try {
+    //
+    const response = await connectLn.query(
+      "SELECT * FROM arrival_view GROUP BY id ORDER BY date DESC  ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.pengisian_byArrivalId = async (req, res) => {
   try {
     const id = req.params.id;
