@@ -218,6 +218,23 @@ exports.view_report_ln2 = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.view_range_report_ln2 = async (req, res) => {
+  try {
+    //
+    const { start,end } = req.params;
+    const response = await connectLn.query(
+      "SELECT * FROM `pengecekan_ln2`.`check_level_ln2_view` WHERE date BETWEEN ? AND ?  ",
+      {
+        replacements: [start,end],
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.newest_check_level = async (req, res) => {
   try {
     //

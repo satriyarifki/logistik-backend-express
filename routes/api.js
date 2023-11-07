@@ -47,6 +47,7 @@ router.get("/arrival-ln2-group", ln2.arrival_grouped);
 router.get("/check-level/newest", ln2.newest_check_level);
 router.get("/pengisian-ln2/:id", ln2.pengisian_byArrivalId);
 router.get("/report-ln2/:date", ln2.view_report_ln2);
+router.get("/report-ln2-range/:start/:end", ln2.view_range_report_ln2);
 router.get("/ln2-karyawan", ln2.karyawan);
 router.get("/ln2-supplier", ln2.supplier);
 router.get("/ln2-tanki", ln2.tanki);
