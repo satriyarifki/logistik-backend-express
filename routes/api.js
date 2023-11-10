@@ -42,6 +42,7 @@ router.get("/warehouse-occu-all", whs.warehouse_occu_all);
 router.post("/warehouse-occu-update/:id", whs.edit_occupancy);
 
 router.get("/arrival-ln2/:id", ln2.arrival_byId);
+router.get("/arrival-ln2/:date/:supplierId", ln2.arrival_byDateSupplier);
 router.get("/arrival-ln2", ln2.arrival_all);
 router.get("/arrival-ln2-group", ln2.arrival_grouped);
 router.get("/check-level/newest", ln2.newest_check_level);

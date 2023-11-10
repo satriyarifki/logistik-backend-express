@@ -8,6 +8,21 @@ const {
 const test = "SELECT * FROM `pengecekan_ln2`.`arrival_view` WHERE id = $id ";
 
 // GET DATA
+exports.arrival_all = async (req, res) => {
+  try {
+    //
+    const response = await connectLn.query(
+      "SELECT * FROM arrival_view ORDER BY date DESC  ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.arrival_byId = async (req, res) => {
   try {
     //
@@ -33,12 +48,13 @@ exports.arrival_byId = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
-exports.arrival_all = async (req, res) => {
+exports.arrival_byDateSupplier = async (req, res) => {
   try {
     //
     const response = await connectLn.query(
-      "SELECT * FROM arrival_view ORDER BY date DESC  ",
+      "SELECT * FROM arrival_ln2 WHERE date = $date AND supplierId = $supplierId ",
       {
+        bind:{date:req.params.date,supplierId: req.params.supplierId},
         type: QueryTypes.SELECT,
       }
     );
@@ -48,6 +64,7 @@ exports.arrival_all = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
 exports.arrival_grouped = async (req, res) => {
   try {
     //
