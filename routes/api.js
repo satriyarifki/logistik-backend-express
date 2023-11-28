@@ -5,6 +5,7 @@ var fleet = require("../controllers/fleet-distribution.controller");
 var whs = require("../controllers/warehouse.controller");
 var ln2 = require("../controllers/check-ln2.controller");
 var rmpm = require("../controllers/rmpm.controller");
+var budget = require("../controllers/budget-factory.controller");
 
 //TEMPERATURE
 router.get("/temp-pocari", temp.temppocari);
@@ -77,5 +78,15 @@ router.post("/rmpm-update", rmpm.update);
 router.post("/rmpm-update/storage", rmpm.update_storage);
 router.delete("/rmpm-del/:date/:time", rmpm.delete);
 router.delete("/rmpm-del-storage/:id", rmpm.delete_storage);
+
+//Budget Factory
+router.get("/budget/shipping", budget.index_shipping);
+router.get("/budget/shipping-kjy", budget.index_shipping_kjy);
+router.get("/budget/shipping-skb", budget.index_shipping_skb);
+router.get("/budget/factory", budget.index_budget);
+router.get("/budget/handling", budget.index_handling);
+router.get("/budget/overhead", budget.index_overhead);
+router.put("/budget/overhead", budget.update_overhead);
+router.put("/budget/shipping", budget.update_shipping);
 
 module.exports = router;

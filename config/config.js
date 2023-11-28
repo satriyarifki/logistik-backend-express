@@ -5,7 +5,7 @@ module.exports = {
     password: "intern",
     database: "scada_db1",
     host: "192.168.9.47",
-    port: "6446",
+    port: "6447",
     dialect: "mysql",
   },
   fleet_distribution: {
@@ -35,6 +35,14 @@ module.exports = {
     username: "iot_prod",
     password: "123456",
     database: "occupancy_rmpm",
+    host: "192.168.9.47",
+    port: "3306",
+    dialect: "mysql",
+  },
+  budget_factory: {
+    username: "iot_prod",
+    password: "123456",
+    database: "budget_actual_factory",
     host: "192.168.9.47",
     port: "3306",
     dialect: "mysql",
