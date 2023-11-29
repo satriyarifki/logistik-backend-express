@@ -51,7 +51,37 @@ exports.index_budget = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM budget_vs_factory",
+      "SELECT * FROM budget_vs_factory ",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.index_budget_kjy = async (req, res) => {
+  try {
+    //
+    const response = await connectBudget.query(
+      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Kejayan'",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.index_budget_skb = async (req, res) => {
+  try {
+    //
+    const response = await connectBudget.query(
+      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Sukabumi'",
       {
         type: QueryTypes.SELECT,
       }
@@ -134,6 +164,33 @@ exports.update_shipping = async (req, res) => {
             destination: elem.destination,
             percentage: elem.percentage,
             qty_carton: elem.qty_carton,
+            from: elem.from,
+          },
+          type: QueryTypes.UPDATE,
+        }
+      );
+    });
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.update_budget = async (req, res) => {
+  try {
+    //
+    console.log(req.body);
+    await req.body.items.forEach((elem) => {
+      // console.log(element);
+      response = connectBudget.query(
+        "UPDATE budget_vs_factory SET `date` = $date  ,`bud` = $bud ,`foh` = $foh ,`from` = $from  WHERE id = $id",
+        {
+          bind: {
+            id: elem.id,
+            date: elem.date + "-01",
+            bud: elem.bud,
+            foh: elem.foh,
             from: elem.from,
           },
           type: QueryTypes.UPDATE,

@@ -84,9 +84,12 @@ router.get("/budget/shipping", budget.index_shipping);
 router.get("/budget/shipping-kjy", budget.index_shipping_kjy);
 router.get("/budget/shipping-skb", budget.index_shipping_skb);
 router.get("/budget/factory", budget.index_budget);
+router.get("/budget/factory-kjy", budget.index_budget_kjy);
+router.get("/budget/factory-skb", budget.index_budget_skb);
 router.get("/budget/handling", budget.index_handling);
 router.get("/budget/overhead", budget.index_overhead);
 router.put("/budget/overhead", budget.update_overhead);
+router.put("/budget/factory", budget.update_budget);
 router.put("/budget/shipping", budget.update_shipping);
 
 module.exports = router;
