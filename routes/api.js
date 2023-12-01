@@ -90,9 +90,11 @@ router.get("/budget/factory-skb", budget.index_budget_skb);
 router.get("/budget/handling", budget.index_handling);
 router.get("/budget/overhead", budget.index_overhead);
 router.get("/budget/summary", budget.index_summary);
+router.get("/budget/foh", budget.index_foh);
 router.put("/budget/overhead", budget.update_overhead);
 router.put("/budget/factory", budget.update_budget);
 router.put("/budget/shipping", budget.update_shipping);
 router.put("/budget/summary", budget.update_summary);
+router.put("/budget/foh", budget.update_foh_distribution);
 
 module.exports = router;

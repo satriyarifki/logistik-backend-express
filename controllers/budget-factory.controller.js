@@ -135,12 +135,26 @@ exports.index_summary = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.index_foh = async (req, res) => {
+  try {
+    //
+    const response = await connectBudget.query(
+      "SELECT f.id, i.name as item, f.percentage FROM foh_distribution as f INNER JOIN item_foh as i ON i.id = f.itemId",
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 
 // STORE
 exports.store_overhead = async (req, res) => {
   try {
     //
-    console.log(req.body);
     let response;
     await req.body.items.forEach((element) => {
       // console.log(element);
@@ -169,7 +183,6 @@ exports.store_overhead = async (req, res) => {
 exports.update_shipping = async (req, res) => {
   try {
     //
-    console.log(req.body);
     let response;
     await req.body.items.forEach((elem) => {
       // console.log(element);
@@ -197,7 +210,6 @@ exports.update_shipping = async (req, res) => {
 exports.update_budget = async (req, res) => {
   try {
     //
-    console.log(req.body);
     await req.body.items.forEach((elem) => {
       // console.log(element);
       response = connectBudget.query(
@@ -224,7 +236,6 @@ exports.update_budget = async (req, res) => {
 exports.update_overhead = async (req, res) => {
   try {
     //
-    console.log(req.body);
     let response;
     await req.body.items.forEach((elem) => {
       // console.log(element);
@@ -252,7 +263,6 @@ exports.update_overhead = async (req, res) => {
 exports.update_summary = async (req, res) => {
   try {
     //
-    console.log(req.body);
     let response;
     await req.body.items.forEach((elem) => {
       // console.log(element);
@@ -264,6 +274,30 @@ exports.update_summary = async (req, res) => {
             name: elem.name,
             value: elem.value,
             month: elem.month,
+          },
+          type: QueryTypes.UPDATE,
+        }
+      );
+    });
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.update_foh_distribution = async (req, res) => {
+  try {
+    //
+    let response;
+    await req.body.items.forEach((elem) => {
+      // console.log(element);
+      response = connectBudget.query(
+        "UPDATE foh_distribution SET `percentage` = $percentage WHERE id = $id",
+        {
+          bind: {
+            id: elem.id,
+            percentage: elem.percentage,
           },
           type: QueryTypes.UPDATE,
         }
