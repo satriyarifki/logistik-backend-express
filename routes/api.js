@@ -85,16 +85,26 @@ router.get("/budget/shipping", budget.index_shipping);
 router.get("/budget/shipping-kjy", budget.index_shipping_kjy);
 router.get("/budget/shipping-skb", budget.index_shipping_skb);
 router.get("/budget/factory", budget.index_budget);
+router.get("/budget/factory-yearlist/:from", budget.index_budget_year_list);
 router.get("/budget/factory-kjy", budget.index_budget_kjy);
+router.get("/budget/factory-kjy/:year", budget.index_budget_kjy_byyear);
 router.get("/budget/factory-skb", budget.index_budget_skb);
+router.get("/budget/factory-skb/:year", budget.index_budget_skb_byyear);
 router.get("/budget/handling", budget.index_handling);
+router.get("/budget/handling/:year", budget.index_handling_byyear);
 router.get("/budget/overhead", budget.index_overhead);
+router.get("/budget/overhead/:year", budget.index_overhead_byyear);
+router.get("/budget/overhand-yearlist/:type", budget.index_overhand_yearlist);
 router.get("/budget/summary", budget.index_summary);
 router.get("/budget/foh", budget.index_foh);
+router.post("/budget/factory", budget.store_budget);
+router.post("/budget/overhand", budget.store_overhand);
 router.put("/budget/overhead", budget.update_overhead);
 router.put("/budget/factory", budget.update_budget);
 router.put("/budget/shipping", budget.update_shipping);
 router.put("/budget/summary", budget.update_summary);
 router.put("/budget/foh", budget.update_foh_distribution);
+router.delete("/budget/factory/:year/:from",budget.delete_budget)
+router.delete("/budget/overhand/:year/:type",budget.delete_overhand)
 
 module.exports = router;
