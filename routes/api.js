@@ -81,9 +81,12 @@ router.delete("/rmpm-del-storage/:id", rmpm.delete_storage);
 
 //Budget Factory
 router.get("/budget/shipping", budget.index_shipping);
+router.get("/budget/shipping-monthlist/:from", budget.index_shipping_yearmonth_list);
 router.get("/budget/shipping", budget.index_shipping);
 router.get("/budget/shipping-kjy", budget.index_shipping_kjy);
+router.get("/budget/shipping-kjy/:yearmonth", budget.index_shipping_kjy_bymonthyear);
 router.get("/budget/shipping-skb", budget.index_shipping_skb);
+router.get("/budget/shipping-skb/:yearmonth", budget.index_shipping_skb_bymonthyear);
 router.get("/budget/factory", budget.index_budget);
 router.get("/budget/factory-yearlist/:from", budget.index_budget_year_list);
 router.get("/budget/factory-kjy", budget.index_budget_kjy);
