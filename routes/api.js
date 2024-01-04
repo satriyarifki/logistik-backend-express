@@ -99,10 +99,13 @@ router.get("/budget/overhead", budget.index_overhead);
 router.get("/budget/overhead/:year", budget.index_overhead_byyear);
 router.get("/budget/overhand-yearlist/:type", budget.index_overhand_yearlist);
 router.get("/budget/summary", budget.index_summary);
+router.get("/budget/summary-monthlist", budget.index_summary_yearmonth_list);
+router.get("/budget/summary/:yearmonth", budget.index_summary_by_yearmonth);
 router.get("/budget/foh", budget.index_foh);
 router.post("/budget/factory", budget.store_budget);
 router.post("/budget/overhand", budget.store_overhand);
 router.post("/budget/shipping", budget.store_shipping);
+router.post("/budget/summary", budget.store_budget_summary);
 router.put("/budget/overhead", budget.update_overhead);
 router.put("/budget/factory", budget.update_budget);
 router.put("/budget/shipping", budget.update_shipping);
@@ -111,5 +114,6 @@ router.put("/budget/foh", budget.update_foh_distribution);
 router.delete("/budget/factory/:year/:from",budget.delete_budget)
 router.delete("/budget/overhand/:year/:type",budget.delete_overhand)
 router.delete("/budget/shipping/:yearmonth/:from",budget.delete_shipping)
+router.delete("/budget/summary/:yearmonth",budget.delete_budget_summary)
 
 module.exports = router;

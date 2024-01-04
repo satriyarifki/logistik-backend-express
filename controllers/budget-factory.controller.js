@@ -18,6 +18,7 @@ const theMonths = [
   "12",
 ];
 const shippingPlace = ["Distributor", "ODI", "Export", "Intersite WH", "LDC"];
+const summaryNames = ["YTD Budget", "YTD FOH", "% Achievement", "AVG. FOH/Units"];
 // INDEX
 exports.index_shipping = async (req, res) => {
   try {
@@ -55,7 +56,7 @@ exports.index_shipping_kjy = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM shipping_destination as s WHERE s.from = 'Kejayan'",
+      "SELECT * FROM shipping_destination as s WHERE s.from = 'Kejayan' AND YEAR(s.date) IN (SELECT YEAR(MAX(DATE)) FROM shipping_destination WHERE `from` = 'Kejayan') ORDER BY s.id",
       {
         type: QueryTypes.SELECT,
       }
@@ -71,7 +72,7 @@ exports.index_shipping_kjy_bymonthyear = async (req, res) => {
     //
     const { yearmonth } = req.params;
     const response = await connectBudget.query(
-      "SELECT * FROM shipping_destination as s WHERE s.from = 'Kejayan' && s.date LIKE CONCAT('%', ? ,'%')",
+      "SELECT * FROM shipping_destination as s WHERE s.from = 'Kejayan' && s.date LIKE CONCAT('%', ? ,'%') ORDER BY s.id",
       {
         replacements: [yearmonth],
         type: QueryTypes.SELECT,
@@ -88,7 +89,7 @@ exports.index_shipping_skb = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM shipping_destination as s WHERE s.from = 'Sukabumi'",
+      "SELECT * FROM shipping_destination as s WHERE s.from = 'Sukabumi' AND YEAR(s.date) IN (SELECT YEAR(MAX(DATE)) FROM shipping_destination WHERE `from` = 'Sukabumi') ORDER BY s.id",
       {
         type: QueryTypes.SELECT,
       }
@@ -104,7 +105,7 @@ exports.index_shipping_skb_bymonthyear = async (req, res) => {
     //
     const { yearmonth } = req.params;
     const response = await connectBudget.query(
-      "SELECT * FROM shipping_destination as s WHERE s.from = 'Sukabumi' && s.date LIKE CONCAT('%', ? ,'%')",
+      "SELECT * FROM shipping_destination as s WHERE s.from = 'Sukabumi' && s.date LIKE CONCAT('%', ? ,'%') ORDER BY s.id",
       {
         replacements: [yearmonth],
         type: QueryTypes.SELECT,
@@ -153,7 +154,7 @@ exports.index_budget_kjy = async (req, res) => {
     //
     const { year } = req.params;
     const response = await connectBudget.query(
-      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Kejayan' ORDER BY b.date",
+      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Kejayan' AND YEAR(b.date) IN (SELECT YEAR(MAX(DATE)) FROM budget_vs_factory  WHERE `from` = 'Kejayan') ORDER BY b.date",
       {
         type: QueryTypes.SELECT,
       }
@@ -185,7 +186,7 @@ exports.index_budget_skb = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Sukabumi' ORDER BY b.date",
+      "SELECT * FROM budget_vs_factory as b WHERE b.from = 'Sukabumi' AND YEAR(b.date) IN (SELECT YEAR(MAX(DATE)) FROM budget_vs_factory WHERE `from` = 'Sukabumi') ORDER BY b.date",
       {
         type: QueryTypes.SELECT,
       }
@@ -217,7 +218,7 @@ exports.index_handling = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM warehouse_factory WHERE type = 'Handling'",
+      "SELECT * FROM warehouse_factory WHERE type = 'Handling' AND YEAR(date) IN (SELECT YEAR(MAX(DATE)) FROM warehouse_factory WHERE type = 'Handling') ORDER BY date",
       {
         type: QueryTypes.SELECT,
       }
@@ -249,7 +250,7 @@ exports.index_overhead = async (req, res) => {
   try {
     //
     const response = await connectBudget.query(
-      "SELECT * FROM warehouse_factory WHERE type = 'Overhead'",
+      "SELECT * FROM warehouse_factory WHERE type = 'Overhead' AND YEAR(date) IN (SELECT YEAR(MAX(DATE)) FROM warehouse_factory WHERE type = 'Overhead') ORDER BY date",
       {
         type: QueryTypes.SELECT,
       }
@@ -295,10 +296,37 @@ exports.index_overhand_yearlist = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+exports.index_summary_by_yearmonth = async (req, res) => {
+  try {
+    //
+    const { yearmonth } = req.params;
+    const response = await connectBudget.query("SELECT * FROM budget_summary WHERE date LIKE CONCAT('%', ? ,'%')", {
+      replacements: [yearmonth],
+      type: QueryTypes.SELECT,
+    });
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
 exports.index_summary = async (req, res) => {
   try {
     //
     const response = await connectBudget.query("SELECT * FROM budget_summary", {
+      
+      type: QueryTypes.SELECT,
+    });
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.index_summary_yearmonth_list = async (req, res) => {
+  try {
+    //
+    const response = await connectBudget.query("SELECT DATE_FORMAT(date, '%Y-%m-%d') as yearmonth FROM budget_summary GROUP BY yearmonth ORDER BY date", {
       type: QueryTypes.SELECT,
     });
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
@@ -392,6 +420,30 @@ exports.store_shipping = async (req, res) => {
         }
       );
       // console.log(resp);
+      response.push(resp);
+    });
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.store_budget_summary = async (req, res) => {
+  try {
+    //
+    let response = [];
+    summaryNames.forEach(async (elem) => {
+      let resp = await connectBudget.query(
+        "INSERT INTO budget_summary (`date` ,`name` ,`value`) VALUES ($date ,$name ,0) ",
+        {
+          bind: {
+            name: elem,
+            date: req.body.yearmonth + '-01'
+          },
+          type: QueryTypes.INSERT,
+        }
+      );
       response.push(resp);
     });
 
@@ -585,6 +637,26 @@ exports.delete_budget = async (req, res) => {
       "DELETE FROM budget_vs_factory WHERE YEAR(date) = ? AND `from` = ?",
       {
         replacements: [year, from],
+        type: QueryTypes.DELETE,
+      }
+    );
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.delete_budget_summary = async (req, res) => {
+  // console.log(req.body)
+  try {
+    //
+    const { yearmonth } = req.params;
+    const response = await connectBudget.query(
+      "DELETE FROM budget_summary WHERE date LIKE CONCAT('%', ? ,'%')",
+      {
+        replacements: [yearmonth],
         type: QueryTypes.DELETE,
       }
     );
