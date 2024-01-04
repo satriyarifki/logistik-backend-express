@@ -39,7 +39,7 @@ exports.index_shipping_yearmonth_list = async (req, res) => {
     //
     const { from } = req.params;
     const response = await connectBudget.query(
-      "SELECT CONCAT(YEAR(b.date),'-',MONTH(b.DATE),'-', DAY(b.date)) as yearmonth FROM shipping_destination as b WHERE b.from = ? GROUP BY yearmonth ORDER BY date",
+      "SELECT DATE_FORMAT(b.date, '%Y-%m-%d') as yearmonth FROM shipping_destination as b WHERE b.from = ? GROUP BY yearmonth ORDER BY date",
       {
         replacements: [from],
         type: QueryTypes.SELECT,
@@ -134,7 +134,6 @@ exports.index_budget = async (req, res) => {
 exports.index_budget_year_list = async (req, res) => {
   try {
     //
-    console.log(req.body);
     const { from } = req.params;
     const response = await connectBudget.query(
       "SELECT YEAR(b.date) as year FROM budget_vs_factory as b WHERE b.from = ? GROUP BY year ORDER BY year",
@@ -378,20 +377,21 @@ exports.store_budget = async (req, res) => {
 exports.store_shipping = async (req, res) => {
   try {
     //
+    console.log(req.body);
     let response = [];
     shippingPlace.forEach(async (elem) => {
       let resp = await connectBudget.query(
         "INSERT INTO shipping_destination (`date` ,`destination` ,`percentage` ,`qty_carton`,`from`) VALUES ($date ,$destination ,0, 0 ,$from) ",
         {
           bind: {
-            date: req.body.date,
-            destination: req.body.elem,
+            date: req.body.yearmonth + "-01",
+            destination: elem,
             from: req.body.from,
           },
           type: QueryTypes.INSERT,
         }
       );
-      console.log(resp);
+      // console.log(resp);
       response.push(resp);
     });
 
@@ -535,16 +535,15 @@ exports.update_foh_distribution = async (req, res) => {
 };
 
 // DELETE
-exports.delete_budget = async (req, res) => {
+exports.delete_shipping = async (req, res) => {
   // console.log(req.body)
   try {
     //
-    console.log(req.body);
-    const { year, from } = req.params;
+    const { yearmonth, from } = req.params;
     const response = await connectBudget.query(
-      "DELETE FROM budget_vs_factory WHERE YEAR(date) = ? AND `from` = ?",
+      "DELETE FROM shipping_destination WHERE date LIKE CONCAT('%', ? ,'%') AND `from` = ?",
       {
-        replacements: [year, from],
+        replacements: [yearmonth, from],
         type: QueryTypes.DELETE,
       }
     );
@@ -566,6 +565,26 @@ exports.delete_overhand = async (req, res) => {
       "DELETE FROM warehouse_factory WHERE YEAR(date) = ? AND `type` = ?",
       {
         replacements: [year, type],
+        type: QueryTypes.DELETE,
+      }
+    );
+
+    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
+    res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: e.message });
+  }
+};
+exports.delete_budget = async (req, res) => {
+  // console.log(req.body)
+  try {
+    //
+    const { year, from } = req.params;
+    const response = await connectBudget.query(
+      "DELETE FROM budget_vs_factory WHERE YEAR(date) = ? AND `from` = ?",
+      {
+        replacements: [year, from],
         type: QueryTypes.DELETE,
       }
     );
