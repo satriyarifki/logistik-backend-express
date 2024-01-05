@@ -313,7 +313,7 @@ exports.index_summary_by_yearmonth = async (req, res) => {
 exports.index_summary = async (req, res) => {
   try {
     //
-    const response = await connectBudget.query("SELECT * FROM budget_summary", {
+    const response = await connectBudget.query("SELECT * FROM budget_summary WHERE date IN (SELECT MAX(DATE) FROM budget_summary) ORDER BY id", {
       
       type: QueryTypes.SELECT,
     });
@@ -434,6 +434,7 @@ exports.store_budget_summary = async (req, res) => {
     //
     let response = [];
     summaryNames.forEach(async (elem) => {
+      console.log(elem);
       let resp = await connectBudget.query(
         "INSERT INTO budget_summary (`date` ,`name` ,`value`) VALUES ($date ,$name ,0) ",
         {
