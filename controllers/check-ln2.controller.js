@@ -8,6 +8,7 @@ const {
 const test = "SELECT * FROM `pengecekan_ln2`.`arrival_view` WHERE id = $id ";
 
 // GET DATA
+//// Arrival
 exports.arrival_all = async (req, res) => {
   try {
     //
@@ -64,7 +65,6 @@ exports.arrival_byDateSupplier = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
-
 exports.arrival_grouped = async (req, res) => {
   try {
     //

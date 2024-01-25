@@ -2,6 +2,7 @@ const { Sequelize, QueryTypes } = require("sequelize");
 const { connectRmpm } = require("../config/connection");
 const fs = require("fs");
 
+// INDEX
 exports.index = async (req, res) => {
   try {
     //
@@ -90,6 +91,8 @@ exports.storage = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+// STORE
 exports.store = async (req, res) => {
   try {
     //
@@ -140,6 +143,8 @@ exports.store_storage = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+// UPDATE
 exports.update = async (req, res) => {
   try {
     //
@@ -193,6 +198,8 @@ exports.update_storage = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+// DELETE
 exports.delete = async (req, res) => {
   try {
     //
@@ -231,63 +238,6 @@ exports.delete_storage = async (req, res) => {
 
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
     res.status(200).json(response);
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
-exports.test = async (req, res) => {
-  try {
-    //
-    let result = [];
-    const mrkContent = fs.readFileSync("controllers/Calendar.mrk", "utf8");
-    // const mrkConten = fs.readFile("controllers/Calendar.mrk");
-    // const mrkLines = mrkContent.split("<Event");
-    const regexSquare = /A\[([^\]]*)\]]/;
-    const regexArrow = /\>([^\]]*)\</;
-
-    const regexStart = /id>\r\n<Start>([\s\S]*?)<\/Start>/g;
-    const regexSubject = /<Subject>([\s\S]*?)<\/Subject>/g;
-    const regexCreator = /<Creator>([\s\S]*?)<\/Creator>/g;
-    const regexPlanner = /<Planner>([\s\S]*?)<\/Planner>/g;
-    const regexEnd =
-      /id>\r\n<Start>([\s\S]*?)<\/Start>\r\n<End>([\s\S]*?)<\/End>\r\n<Su/g;
-    const regexModified = /<Modified>([\s\S]*?)<\/Modified>/g;
-    // const regex = /<Event\b[^>]*>([\s\S]*?)<\/Event>/m;
-    // const regex = /<Event[^>]*>((.|[\n\r])*)<\/Event>/g;
-    const mrkStart = mrkContent.match(regexStart);
-    const mrkSubject = mrkContent.match(regexSubject);
-    const mrkCreator = mrkContent.match(regexCreator);
-    const mrkPlanner = mrkContent.match(regexPlanner);
-    const mrkEnd = mrkContent.match(regexEnd);
-    const mrkModified = mrkContent.match(regexModified);
-    // const subject = mrkSubject[0].match(/A\[([^\]]*)\]]/);
-    mrkSubject.forEach((element, i) => {
-      // console.log(element.match(regexSquare)[1] + ',' +
-      // mrkCreator[i].match(regexSquare)[1] + ',' +
-      // mrkPlanner[i].match(regexSquare)[1] + ',' +
-      // mrkStart[i].match(/t\>([^\]]*)\</)[1] + ',' +
-      // mrkEnd[i].match(regexArrow)[1] + ',' +
-      // mrkModified[i].match(regexArrow)[1]);
-      result.push({
-        subject: element.match(regexSquare)[1],
-        creator: mrkCreator[i].match(regexSquare)[1],
-        planner: mrkPlanner[i].match(regexSquare)[1],
-        time_start: mrkStart[i].match(/t\>([^\]]*)\</)[1],
-        time_end: mrkEnd[i].match(/End\>([^\]]*)\<\//)[1],
-        modified_at: mrkModified[i].match(regexArrow)[1],
-      });
-    });
-    // console.log(mrkEvent);
-    // const htmlContent = fs.rename("controllers/Calendar.mrk","controllers/Calendar.html")
-
-    console.log(mrkStart.length);
-    console.log(mrkEnd.length);
-    console.log(mrkSubject.length);
-    console.log(mrkCreator.length);
-    console.log(mrkPlanner.length);
-    console.log(mrkModified.length);
-    // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
-    res.status(200).json({ regex: result, mrk: mrkEnd });
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }

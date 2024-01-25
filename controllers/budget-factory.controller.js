@@ -20,6 +20,7 @@ const theMonths = [
 const shippingPlace = ["Distributor", "ODI", "Export", "Intersite WH", "LDC"];
 const summaryNames = ["YTD Budget", "YTD FOH", "% Achievement", "AVG. FOH/Units"];
 // INDEX
+///// Shipping
 exports.index_shipping = async (req, res) => {
   try {
     //
@@ -84,7 +85,6 @@ exports.index_shipping_kjy_bymonthyear = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
-
 exports.index_shipping_skb = async (req, res) => {
   try {
     //
@@ -117,6 +117,7 @@ exports.index_shipping_skb_bymonthyear = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+//// Budget Factory
 exports.index_budget = async (req, res) => {
   try {
     //
@@ -214,6 +215,7 @@ exports.index_budget_skb_byyear = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+///// Handling Load
 exports.index_handling = async (req, res) => {
   try {
     //
@@ -246,6 +248,7 @@ exports.index_handling_byyear = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+//// Overhead 
 exports.index_overhead = async (req, res) => {
   try {
     //
@@ -296,6 +299,7 @@ exports.index_overhand_yearlist = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+//// Budget Summary
 exports.index_summary_by_yearmonth = async (req, res) => {
   try {
     //
@@ -433,8 +437,8 @@ exports.store_budget_summary = async (req, res) => {
   try {
     //
     let response = [];
-    summaryNames.forEach(async (elem) => {
-      console.log(elem);
+    for (const elem of summaryNames) {
+      // console.log(elem);
       let resp = await connectBudget.query(
         "INSERT INTO budget_summary (`date` ,`name` ,`value`) VALUES ($date ,$name ,0) ",
         {
@@ -446,7 +450,7 @@ exports.store_budget_summary = async (req, res) => {
         }
       );
       response.push(resp);
-    });
+    };
 
     // const response = { trucking: trucking, arrival: arrival, deliveryDestination: delivery };
     res.status(200).json(response);

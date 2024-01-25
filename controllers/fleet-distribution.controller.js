@@ -156,6 +156,7 @@ exports.monthly_skb = async (req, res) => {
 };
 
 //EDIT DATA
+/// Trucking
 exports.edit_trucking_kjy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -200,6 +201,7 @@ exports.edit_trucking_skb = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+// Delivery
 exports.edit_delivery_kjy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -244,6 +246,7 @@ exports.edit_delivery_skb = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+// Ontime
 exports.edit_ontime_kjy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -284,6 +287,7 @@ exports.edit_ontime_skb = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+// Damage
 exports.edit_damage_kjy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -322,6 +326,7 @@ exports.edit_damage_skb = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+// Perfect
 exports.edit_perfect_kjy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -362,7 +367,7 @@ exports.edit_perfect_skb = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
-
+// Handling
 exports.edit_handling_kjy = async (req, res) => {
   try {
     const { id } = req.params;
